@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Cadastro de Pessoa</title>
@@ -28,18 +28,37 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="p : ${pessoas}">
+                <tr th:each="p : ${pessoas.content}">
                     <td th:text="${p.nome}">Nome</td>
                     <td th:text="${p.idade}">Idade</td>
                     <td th:text="${p.genero}">Gênero</td>
                     <td style="width: 180px;">
-                        <a th:href="@{/pessoa/repetir/{id}(id=${p.id})}" class="teste btn btn-sm btn-outline-primary">
+                        <a th:href="@{/pessoa/repetir/{id}(id=${p.id})}" class="btn btn-sm btn-outline-primary">
                             Repetir Cadastro
                         </a>
                     </td>
                 </tr>
                 </tbody>
             </table>
+            <div class="d-flex justify-content-center mt-3">
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${pessoas.first} ? 'disabled'">
+                            <a class="page-link" th:href="@{/pessoa/list(page=${pessoas.number - 1})}">Anterior</a>
+                        </li>
+                        <li class="page-item disabled">
+                <span class="page-link">
+                    Página <span th:text="${pessoas.number + 1}">1</span> de <span th:text="${pessoas.totalPages}">1</span>
+                </span>
+                        </li>
+                        <li class="page-item" th:classappend="${pessoas.last} ? 'disabled'">
+                            <a class="page-link" th:href="@{/pessoa/list(page=${pessoas.number + 1})}">Próxima</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+
         </div>
     </div>
 </div>

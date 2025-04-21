@@ -1,18 +1,21 @@
 package com.sfc.repeat.pessoa;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/pessoa")
+@RequiredArgsConstructor
 public class PessoaController {
 
     private final PessoaService service;
-
-    public PessoaController(PessoaService service) {
-        this.service = service;
-    }
 
     @GetMapping("/add")
     public String formAddPessoa(Model model) {
@@ -21,12 +24,18 @@ public class PessoaController {
     }
 
     @GetMapping("/list")
-    public String formPessoas(Model model) {
-        model.addAttribute("pessoas", service.listarTodos());
+    public String formPessoas(Model model,
+                              @PageableDefault(size = 10) Pageable pageable) {
+        Pageable ordenadoPorData = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by(Sort.Direction.DESC, "dataInclusao")
+        );
+
+        Page<Pessoa> pessoas = service.listarTodos(ordenadoPorData);
+        model.addAttribute("pessoas", pessoas);
         return "form-pessoa";
     }
-
-
 
     @PostMapping
     public String salvarPessoa(@ModelAttribute Pessoa pessoa) {
@@ -41,6 +50,7 @@ public class PessoaController {
         copia.setNome(pessoaOriginal.getNome());
         copia.setIdade(pessoaOriginal.getIdade());
         copia.setGenero(pessoaOriginal.getGenero());
+
         service.salvar(copia);
         return "redirect:/pessoa/list?repetido";
     }

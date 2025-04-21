@@ -1,8 +1,10 @@
 package com.sfc.repeat.pessoa;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Service
 public class PessoaService {
@@ -13,11 +15,12 @@ public class PessoaService {
     }
 
     public Pessoa salvar(Pessoa pessoa) {
+        pessoa.setDataInclusao(LocalDateTime.now());
         return repository.save(pessoa);
     }
 
-    public List<Pessoa> listarTodos() {
-        return repository.findAll();
+    public Page<Pessoa> listarTodos(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public Pessoa buscarPorId(Long id) {
