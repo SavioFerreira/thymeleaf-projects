@@ -1,67 +1,116 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Cadastro de Pessoa</title>
-    <link rel="icon" type="image/x-icon" href="https://www.thymeleaf.org/doc/images/thymeleaf.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-</head>
-<body style="background-color: #d1dde1">
-<div class="container mt-5">
-    <div class="card">
-        <div class="d-flex justify-content-between card-header bg-secondary text-white">
-            <h4>Pessoas Cadastradas</h4>
-            <div>
-                <a th:href="@{/pessoa/add}" class="btn btn-primary text-white py-2">
-                    Adicionar usuário
-                </a>
-            </div>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://www.thymeleaf.org/doc/images/thymeleaf.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+  </head>
+  <body style="background-color: #d1dde1">
+    <div class="container mt-5">
+      <div class="card">
+        <div
+          class="d-flex justify-content-between card-header bg-secondary text-white"
+        >
+          <h4>Pessoas Cadastradas</h4>
+          <div>
+            <a th:href="@{/pessoa/add}" class="btn btn-primary text-white py-2">
+              Adicionar usuário
+            </a>
+          </div>
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Idade</th>
-                    <th>Gênero</th>
-                    <th>Ações</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="p : ${pessoas.content}">
-                    <td th:text="${p.nome}">Nome</td>
-                    <td th:text="${p.idade}">Idade</td>
-                    <td th:text="${p.genero}">Gênero</td>
-                    <td style="width: 180px;">
-                        <a th:href="@{/pessoa/repetir/{id}(id=${p.id})}" class="btn btn-sm btn-outline-primary">
-                            Repetir Cadastro
-                        </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="d-flex justify-content-center mt-3">
-                <nav>
-                    <ul class="pagination">
-                        <li class="page-item" th:classappend="${pessoas.first} ? 'disabled'">
-                            <a class="page-link" th:href="@{/pessoa/list(page=${pessoas.number - 1})}">Anterior</a>
-                        </li>
-                        <li class="page-item disabled">
-                <span class="page-link">
-                    Página <span th:text="${pessoas.number + 1}">1</span> de <span th:text="${pessoas.totalPages}">1</span>
-                </span>
-                        </li>
-                        <li class="page-item" th:classappend="${pessoas.last} ? 'disabled'">
-                            <a class="page-link" th:href="@{/pessoa/list(page=${pessoas.number + 1})}">Próxima</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-
-
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Idade</th>
+                <th>Gênero</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="p : ${pessoas.content}">
+                <td th:text="${p.nome}">Nome</td>
+                <td th:text="${p.idade}">Idade</td>
+                <td th:text="${p.genero}">Gênero</td>
+                <td style="width: 180px">
+                  <a
+                    th:href="@{/pessoa/repetir/{id}(id=${p.id})}"
+                    class="btn btn-sm btn-outline-primary"
+                  >
+                    Repetir Cadastro
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-center mt-3">
+            <nav>
+              <ul class="pagination">
+                <li
+                  class="page-item"
+                  th:classappend="${pessoas.first} ? 'disabled'"
+                >
+                  <a class="page-link" th:href="@{/pessoa/list(page=0)}">
+                    <i class="bi bi-skip-backward-fill"></i>
+                  </a>
+                </li>
+                <li
+                  class="page-item"
+                  th:classappend="${pessoas.first} ? 'disabled'"
+                >
+                  <a
+                    class="page-link"
+                    th:href="@{/pessoa/list(page=${pessoas.number - 1})}"
+                  >
+                    <i class="bi bi-caret-left-fill"></i>
+                  </a>
+                </li>
+                <li class="page-item disabled">
+                  <span class="page-link">
+                    Página <span th:text="${pessoas.number + 1}">1</span> de
+                    <span th:text="${pessoas.totalPages}">1</span>
+                  </span>
+                </li>
+                <li
+                  class="page-item"
+                  th:classappend="${pessoas.last} ? 'disabled'"
+                >
+                  <a
+                    class="page-link"
+                    th:href="@{/pessoa/list(page=${pessoas.number + 1})}"
+                  >
+                    <i class="bi bi-caret-right-fill"></i>
+                  </a>
+                </li>
+                <li
+                  class="page-item"
+                  th:classappend="${pessoas.last} ? 'disabled'"
+                >
+                  <a
+                    class="page-link"
+                    th:href="@{/pessoa/list(page=${pessoas.totalPages - 1})}"
+                  >
+                    <i class="bi bi-skip-forward-fill"></i>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-
-</body>
+  </body>
 </html>
